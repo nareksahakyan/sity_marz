@@ -1,0 +1,34 @@
+﻿
+@using (Ajax.BeginForm("getSearch", "search", null, new AjaxOptions()
+{
+    //UpdateTargetId = "results",
+    InsertionMode = InsertionMode.Replace,
+    HttpMethod = "POST",   
+    OnSuccess = "filldata"
+}))
+{
+    <input id="search_input" class="form-control" name="str" type="text" placeholder="Search" oninput="$(this.form).submit();" />
+
+}
+<div id="results">
+</div>
+
+<script>
+    var autocomp = [];
+    $(function () {
+        $("#search_input").autocomplete({
+            source: autocomp
+        });
+    })
+
+    function filldata(data) {
+        autocomp = [];
+
+        for (i = 0; i < data.length; i++) {
+            autocomp[i] = data[i];
+        }
+        $("#search_input").autocomplete({
+            source: autocomp
+        });
+    }
+</script>

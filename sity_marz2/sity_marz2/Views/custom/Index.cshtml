@@ -1,0 +1,14 @@
+﻿@model List<sity_marz2.Models.marz>
+
+@using (Ajax.BeginForm("getCities", new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "cities",
+}))
+{
+    @Html.DropDownList("marz", new SelectList(Model, "marz_id", "name"), "", new { onchange = "$(this.form).submit();" })
+    // <input type="submit" value="Select" />
+}
+
+<div id="cities"></div>

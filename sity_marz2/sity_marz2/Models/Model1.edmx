@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="city_marzModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cities">
+          <Key>
+            <PropertyRef Name="city_id" />
+          </Key>
+          <Property Name="city_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" />
+          <Property Name="note" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="connects">
+          <Key>
+            <PropertyRef Name="con_id" />
+          </Key>
+          <Property Name="con_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="marz_id" Type="int" />
+          <Property Name="city_id" Type="int" />
+        </EntityType>
+        <EntityType Name="marzs">
+          <Key>
+            <PropertyRef Name="marz_id" />
+          </Key>
+          <Property Name="marz_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" />
+          <Property Name="note" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_connect_city">
+          <End Role="cities" Type="Self.cities" Multiplicity="0..1" />
+          <End Role="connects" Type="Self.connects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cities">
+              <PropertyRef Name="city_id" />
+            </Principal>
+            <Dependent Role="connects">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_connect_marz">
+          <End Role="marzs" Type="Self.marzs" Multiplicity="0..1" />
+          <End Role="connects" Type="Self.connects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marzs">
+              <PropertyRef Name="marz_id" />
+            </Principal>
+            <Dependent Role="connects">
+              <PropertyRef Name="marz_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="city_marzModelStoreContainer">
+          <EntitySet Name="cities" EntityType="Self.cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="connects" EntityType="Self.connects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="marzs" EntityType="Self.marzs" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_connect_city" Association="Self.FK_connect_city">
+            <End Role="cities" EntitySet="cities" />
+            <End Role="connects" EntitySet="connects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_connect_marz" Association="Self.FK_connect_marz">
+            <End Role="marzs" EntitySet="marzs" />
+            <End Role="connects" EntitySet="connects" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="city_marzModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="city_id" />
+          </Key>
+          <Property Name="city_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="connects" Relationship="Self.FK_connect_city" FromRole="city" ToRole="connect" />
+        </EntityType>
+        <EntityType Name="connect">
+          <Key>
+            <PropertyRef Name="con_id" />
+          </Key>
+          <Property Name="con_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="marz_id" Type="Int32" />
+          <Property Name="city_id" Type="Int32" />
+          <NavigationProperty Name="city" Relationship="Self.FK_connect_city" FromRole="connect" ToRole="city" />
+          <NavigationProperty Name="marz" Relationship="Self.FK_connect_marz" FromRole="connect" ToRole="marz" />
+        </EntityType>
+        <EntityType Name="marz">
+          <Key>
+            <PropertyRef Name="marz_id" />
+          </Key>
+          <Property Name="marz_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="connects" Relationship="Self.FK_connect_marz" FromRole="marz" ToRole="connect" />
+        </EntityType>
+        <Association Name="FK_connect_city">
+          <End Role="city" Type="Self.city" Multiplicity="0..1" />
+          <End Role="connect" Type="Self.connect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="city_id" />
+            </Principal>
+            <Dependent Role="connect">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_connect_marz">
+          <End Role="marz" Type="Self.marz" Multiplicity="0..1" />
+          <End Role="connect" Type="Self.connect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="marz">
+              <PropertyRef Name="marz_id" />
+            </Principal>
+            <Dependent Role="connect">
+              <PropertyRef Name="marz_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="city_marzEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cities" EntityType="Self.city" />
+          <EntitySet Name="connects" EntityType="Self.connect" />
+          <EntitySet Name="marzs" EntityType="Self.marz" />
+          <AssociationSet Name="FK_connect_city" Association="Self.FK_connect_city">
+            <End Role="city" EntitySet="cities" />
+            <End Role="connect" EntitySet="connects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_connect_marz" Association="Self.FK_connect_marz">
+            <End Role="marz" EntitySet="marzs" />
+            <End Role="connect" EntitySet="connects" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="city_marzModelStoreContainer" CdmEntityContainer="city_marzEntities">
+    <EntitySetMapping Name="cities">
+      <EntityTypeMapping TypeName="IsTypeOf(city_marzModel.city)">
+        <MappingFragment StoreEntitySet="cities">
+          <ScalarProperty Name="city_id" ColumnName="city_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="connects">
+      <EntityTypeMapping TypeName="IsTypeOf(city_marzModel.connect)">
+        <MappingFragment StoreEntitySet="connects">
+          <ScalarProperty Name="con_id" ColumnName="con_id" />
+          <ScalarProperty Name="marz_id" ColumnName="marz_id" />
+          <ScalarProperty Name="city_id" ColumnName="city_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="marzs">
+      <EntityTypeMapping TypeName="IsTypeOf(city_marzModel.marz)">
+        <MappingFragment StoreEntitySet="marzs">
+          <ScalarProperty Name="marz_id" ColumnName="marz_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

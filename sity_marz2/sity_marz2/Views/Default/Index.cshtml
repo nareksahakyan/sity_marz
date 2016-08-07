@@ -1,0 +1,32 @@
+﻿@model List<sity_marz2.Models.marz>
+
+
+
+<table class="table table-bordered">
+    <tr>
+        @foreach (var mbox in Model)
+        {
+
+            <td>
+                @Ajax.ActionLink(linkText: mbox.name,
+            actionName: "GetCities",
+            routeValues: new {id = mbox.marz_id},
+            ajaxOptions: new AjaxOptions
+            {
+                UpdateTargetId = "cities",
+                InsertionMode = InsertionMode.Replace
+            } 
+            )
+            </td>           
+        }
+        <td style="width: 100px">
+            @Html.ActionLink("Add Marz ...", "AddMarz")
+        </td>
+    </tr>
+</table>
+
+<div id="cities"></div>
+<div id="addcities"></div>
+<div id="note"></div>
+
+@Html.Partial("search")

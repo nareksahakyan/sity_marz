@@ -1,0 +1,49 @@
+﻿@using(Ajax.BeginForm("getcitie", new AjaxOptions
+{
+    UpdateTargetId = "citie_info",
+    InsertionMode = InsertionMode.Replace,
+    HttpMethod = "POST"
+}))
+{
+    <input id="search_input" type="text" class="form-control" name="citie" placeholder="search" oninput="findcitie()"/>
+}
+
+
+<div id="citie_info">
+</div>
+<script>
+    var autocomp = [];
+    $(function () {
+        $("#search_input").autocomplete({
+            source: autocomp
+        });       
+    })
+
+    function findcitie()
+    {
+        var citie = document.getElementById("search_input").value;
+
+        $.ajax({
+            type: "POST",
+            url: "findcitie",
+            data: {citie: citie},
+            dataType: "json",
+            success: fillautocom,
+        })        
+    }
+
+    function fillautocom(data)
+    {
+        autocomp = [];
+
+        for (i = 0; i < data.length; i++) {
+            autocomp[i] = data[i];
+        }
+        $("#search_input").autocomplete({
+            source: autocomp
+        });
+    }
+
+
+</script>
+

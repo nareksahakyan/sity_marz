@@ -1,0 +1,19 @@
+﻿@model List<sity_marz2.Models.city>
+
+<table class="table table-bordered">
+    @foreach (var citie in Model)
+    {
+        <tr>
+            <td>
+                @citie.name
+            </td>
+        </tr>
+    }
+    <tr><td>@Ajax.ActionLink(linkText:"Add City",
+    actionName:"AddCity",  
+    routeValues: new {id = ViewBag.mID},
+    ajaxOptions: new AjaxOptions{
+        UpdateTargetId="addcities",
+        InsertionMode = InsertionMode.Replace,        
+    })</td></tr>
+</table>

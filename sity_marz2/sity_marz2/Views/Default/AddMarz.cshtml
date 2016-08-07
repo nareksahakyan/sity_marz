@@ -1,0 +1,18 @@
+﻿@model sity_marz2.Models.marz
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(m => m.name)
+            @Html.TextBoxFor(m => m.name)
+            <br>
+            @Html.LabelFor(m => m.note)
+            @Html.TextAreaFor(m => m.note)
+        </div>
+        <input type="submit" value="Add" class="btn btn-default" />
+    </div>
+}
+
