@@ -10,7 +10,7 @@ namespace sity_marz2.Controllers
     public class customController : Controller
     {
         public city_marzEntities db = new city_marzEntities();
-        
+       
         // GET: custom
         public ActionResult Index()
         {
